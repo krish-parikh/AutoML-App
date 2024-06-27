@@ -1,6 +1,4 @@
 pandas
-os
-streamlit
 shutil
 numpy
 matplotlib
