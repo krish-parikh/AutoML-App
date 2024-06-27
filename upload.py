@@ -7,7 +7,7 @@ from utilities import load_data, is_dataset_present
 def display_uploaded_dataset():
     if is_dataset_present():
         st.subheader("Uploaded Dataset")
-        df = pd.read_csv('./dataset.csv')
+        df = pd.read_csv('dataset.csv')
         st.dataframe(df)
         st.success("Dataset uploaded successfully!")
 

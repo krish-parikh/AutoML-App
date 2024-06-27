@@ -7,4 +7,3 @@ scikit-learn
 scipy
 tensorflow
 streamlit-pandas-profiling
-pandas-profiling
