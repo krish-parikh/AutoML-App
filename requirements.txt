@@ -1,5 +1,4 @@
 pandas
-shutil
 numpy
 matplotlib
 seaborn
@@ -7,6 +6,4 @@ plotly
 scikit-learn
 scipy
 tensorflow
-time
-base64
 streamlit-pandas-profiling
