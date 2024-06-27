@@ -58,7 +58,7 @@ def handle_kaggle_api_upload():
                 csv_file_selected = st.selectbox("Please select the CSV file:", csv_files)
                 
                 if csv_file_selected:
-                    df = pd.read_csv(os.path.join(extraction_path, csv_file_selected), index_col=None)
+                    df = pd.read_csv(os.path.join(extraction_path, csv_file_selected), index_col=None, encoding='unicode_escape')
                     df.to_csv('dataset.csv', index=None)
                     st.dataframe(df)
 
