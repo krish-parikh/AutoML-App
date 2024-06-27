@@ -20,8 +20,7 @@ import plotly.figure_factory as ff
 with st.sidebar:
     st.image("Images/inno2-2.png")
     st.title("DragAI")
-    mode = toggle_modes()
-    choice = st.radio("Navigation", ["Upload", "Profiling", "Preprocessing", "Modelling", "Download"])
+    choice = st.radio("Navigation", ["Upload", "Profiling", "Preprocessing", "Modelling"])
     st.info("This project application helps you build and explore your data.")
 
     if is_new_dataset_present():
@@ -58,11 +57,10 @@ elif choice == "Preprocessing":
         st.subheader("Current Dataset")
         st.dataframe(df)
 
-        data_structure_choice = st.radio("Choose a data structure:", ["Structured", "Unstructured", "Time Series", "Text", "Image"])
+        data_structure_choice = st.radio("Choose a data structure:", ["Structured"])
 
         if data_structure_choice == "Structured":
-            preprocessing_choice = st.selectbox("Choose a preprocessing technique:", ["Data Cleaning", "Data Transformation", "Data Reduction", 
-                                                                            "Data Discretization", "Feature Engineering", "Data Intergration",
+            preprocessing_choice = st.selectbox("Choose a preprocessing technique:", ["Data Cleaning", "Data Transformation",
                                                                             "Encoding"])
 
             if preprocessing_choice == "Data Cleaning":
@@ -362,10 +360,24 @@ elif choice == "Modelling":
                         time.sleep(0.1)
                         progress_bar.progress(i + 1)
 
-                    # Train the model (assuming you have X_train and y_train)
-                    model.fit(X_train, y_train, epochs=epochs, verbose=0)  # You can set epochs and other params
+                    try:
+                        # Ensure your data is converted to float32 before feeding it into the model
+                        X_train = np.array(X_train, dtype=np.float32)
+                        y_train = np.array(y_train, dtype=np.float32)
 
-                    st.success("Model trained successfully! 🎉")
+                        # Train the model (assuming you have X_train and y_train)
+                        model.fit(X_train, y_train, epochs=epochs, verbose=0)  # You can set epochs and other params
+
+                        st.success("Model trained successfully! 🎉")
+                    except ValueError as ve:
+                        if 'could not convert string to float' in str(ve):
+                            st.error("An error occurred while training the model: It appears that there are categorical variables in your data. Please ensure all categorical variables are encoded to numeric values before training the model.")
+                        else:
+                            st.error(f"An error occurred while training the model: {str(ve)}")
+                        st.stop()
+                    except Exception as e:
+                        st.error(f"An error occurred while training the model: {str(e)}")
+                        st.stop()
 
                     model_path = "trained_model.h5"
                     model.save(model_path)
@@ -408,10 +420,3 @@ elif choice == "Modelling":
 
     else:
         st.error("No dataset found. Please upload a file in the 'Upload' section.")
-
-
-elif choice == "Download": 
-    with open('best_model.pkl', 'rb') as f: 
-        st.download_button('Download Model', f, file_name="best_model.pkl")
-
-        

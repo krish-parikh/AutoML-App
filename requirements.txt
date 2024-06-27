@@ -6,4 +6,5 @@ plotly
 scikit-learn
 scipy
 tensorflow
-streamlit-pandas-profiling
+streamlit-ydata-profiling
+kaggle

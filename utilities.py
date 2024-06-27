@@ -17,6 +17,10 @@ def is_new_dataset_present():
 
 def delete_all_uploaded_files():
     try:
+        # Delete the trained model
+        if os.path.exists('trained_model.h5'):
+            os.remove('trained_model.h5')
+                       
         # Delete the dataset.csv file
         if os.path.exists('dataset.csv'):
             os.remove('dataset.csv')
@@ -46,18 +50,6 @@ def delete_all_uploaded_files():
         st.success("All uploaded files have been deleted!")
     except Exception as e:
         st.error(f"An error occurred while deleting the files: {str(e)}")
-
-def toggle_modes():
-    is_advanced = st.checkbox("Switch to Advanced Mode", value=False)
-
-    if not is_advanced:
-        st.write("This is the beginner mode.")
-        mode = "beginner"
-    else:
-        st.write("This is the advanced mode.")
-        mode = "advanced"
-    
-    return mode
 
 def dataset_selection():
     if is_new_dataset_present():

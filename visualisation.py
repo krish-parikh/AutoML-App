@@ -33,5 +33,8 @@ def display_zscore(z_scores, selected_col):
     return fig 
 
 def display_categorical(df, selected_col):
-    fig = px.bar(df[selected_col].value_counts().reset_index(), x='index', y=selected_col, title=f'Category frequencies in {selected_col}')
+    value_counts_df = df[selected_col].value_counts().reset_index()  # Corrected
+    value_counts_df.columns = ['category', 'count']  # Renaming columns
+
+    fig = px.bar(value_counts_df, x='category', y='count', title=f'Category frequencies in {selected_col}')  # Updated to use new column names
     return fig
